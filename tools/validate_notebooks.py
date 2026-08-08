@@ -39,6 +39,9 @@ def validate_notebook(path):
         errors.append("missing Google Colab link")
     if "Learning objectives" not in markdown_text:
         errors.append("missing learning objectives")
+    first_markdown = source_text(cells[0])
+    if any(line.startswith("    ") for line in first_markdown.splitlines()):
+        errors.append("introductory Markdown contains code-block indentation")
 
     for index, cell in enumerate(cells, start=1):
         if cell.get("cell_type") != "code":
